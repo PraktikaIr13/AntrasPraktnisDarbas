@@ -29,7 +29,15 @@ namespace PrekybosSistema
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
+            DB.IsregistruotiTiekeja(this);
+
+            listBox1.Items.Clear();
+            label4.Text = "";
+            label5.Text = "";
+            label6.Text = "";
+            label7.Text = "";
+
         }
     }
 }

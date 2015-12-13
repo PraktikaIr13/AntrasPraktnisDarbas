@@ -115,5 +115,17 @@ namespace PrekybosSistema
             sqlConnection.Close();
         }
 
+        public void IsregistruotiTiekeja(TiekejoIsregistravimas data)
+        {
+            SqlConnection sqlConnection = new SqlConnection(this.connectionString);
+            SqlCommand cmd = new SqlCommand("DELETE FROM Tiekejai WHERE tiekejo_pavadinimas LIKE @tiekejo_pavadinimas", sqlConnection);
+            cmd.Parameters.Add("@tiekejo_pavadinimas", System.Data.SqlDbType.Text).Value = data.label5.Text.ToString();
+
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+
+            sqlConnection.Close();
+        }
+
     }
 }
