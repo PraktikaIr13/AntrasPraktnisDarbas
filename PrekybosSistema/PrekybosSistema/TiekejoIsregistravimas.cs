@@ -18,14 +18,14 @@ namespace PrekybosSistema
             InitializeComponent();
             label2.Hide();
             DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
-            DB.tiekejuSarasas(this);
+            DB.TiekejuSarasas(this);
 
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
-            DB.tiekejuSarasasIsregistravimui(this);
+            DB.TiekejuSarasasIsregistravimui(this);
         }
         private void button1_Click(object sender, EventArgs e)
         {

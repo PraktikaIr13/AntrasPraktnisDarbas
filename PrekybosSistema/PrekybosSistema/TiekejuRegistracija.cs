@@ -24,10 +24,10 @@ namespace PrekybosSistema
             DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
 
             // Suteikiame reiksmes kurios bus iterpiamos i duomenu baze
-            DB.tiekejoKodas = Convert.ToInt32(this.imonesKodas);
-            DB.tiekejoPavadinimas = this.imonesPavadimas;
-            DB.sutartisPasirasyta = Convert.ToDateTime(this.pasirasimoData);
-            DB.sutartiesPabaiga = Convert.ToDateTime(this.sutartisPasibaigia);
+            DB.TiekejoKodas = Convert.ToInt32(this.imonesKodas);
+            DB.TiekejoPavadinimas = this.imonesPavadimas;
+            DB.SutartisPasirasyta = Convert.ToDateTime(this.pasirasimoData);
+            DB.SutartiesPabaiga = Convert.ToDateTime(this.sutartisPasibaigia);
 
 
             if (this.imonesPavadimas == "")
@@ -43,7 +43,7 @@ namespace PrekybosSistema
             }
             else
             {
-                if(DB.tiekejuRegistracija().Equals(true))
+                if(DB.TiekejuRegistracija().Equals(true))
                     MessageBox.Show("Naujas tiekėjas užregistruotas!");
                 else
                     MessageBox.Show("Deja, kilo techninių problemų!");

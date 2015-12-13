@@ -7,57 +7,57 @@ namespace PrekybosSistema
     {
         private string connectionString;
 
-         public DuomenuBazesValdymas()
+        public DuomenuBazesValdymas()
         {
             // Prisijungiame prie duomenu bazes
             this.connectionString = Properties.Settings.Default.SandelysConnectionString;
-                //@"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Audrius\documents\visual studio 2015\PrekybosSistema\PrekybosSistema\PrekybosSistema\sandelys.mdf; Integrated Security = True";
         }
 
         /**
             * Duomenu gavimas is isores. SKIRTA REGISTRACIJAI
         */
-        public int tiekejoKodas { get; set; }
-        public string tiekejoPavadinimas { get; set; }
-        public DateTime sutartisPasirasyta { get; set; }
-        public DateTime sutartiesPabaiga { get; set; }
+        public int TiekejoKodas { get; set; }
+        public string TiekejoPavadinimas { get; set; }
+        public DateTime SutartisPasirasyta { get; set; }
+        public DateTime SutartiesPabaiga { get; set; }
 
         /**
             * Tiekejo registracija
         */
-        public bool tiekejuRegistracija()
+        public bool TiekejuRegistracija()
         {
-            int test = 0;
+            SqlConnection sqlConnection = new SqlConnection(this.connectionString);
+            sqlConnection.Open();
 
-                        SqlConnection sqlConnection = new SqlConnection(this.connectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = "INSERT Tiekejai VALUES (@tiekejoKodas, @tiekejoPavavadinimas, @sutartiesPradzia, @sutartiesPabaiga)";
+            cmd.Parameters.AddWithValue("@tiekejoKodas", this.TiekejoKodas);
+            cmd.Parameters.AddWithValue("@tiekejoPavavadinimas", this.TiekejoPavadinimas);
+            cmd.Parameters.AddWithValue("@sutartiesPradzia", this.SutartisPasirasyta);
+            cmd.Parameters.AddWithValue("@sutartiesPabaiga", this.SutartiesPabaiga);
 
-                        SqlCommand cmd = new SqlCommand();
-                            cmd.CommandType = System.Data.CommandType.Text;
-                            cmd.CommandText = "INSERT Tiekejai VALUES (@tiekejoKodas, @tiekejoPavavadinimas, @sutartiesPradzia, @sutartiesPabaiga)";
-                            cmd.Parameters.AddWithValue("@tiekejoKodas", this.tiekejoKodas);
-                            cmd.Parameters.AddWithValue("@tiekejoPavavadinimas", this.tiekejoPavadinimas);
-                            cmd.Parameters.AddWithValue("@sutartiesPradzia", this.sutartisPasirasyta);
-                            cmd.Parameters.AddWithValue("@sutartiesPabaiga", this.sutartiesPabaiga);
-            
-                            cmd.Connection = sqlConnection;
+            cmd.Connection = sqlConnection;
+            int rowsAffected = cmd.ExecuteNonQuery();
+            sqlConnection.Close();
 
-                        sqlConnection.Open();
-                        test = cmd.ExecuteNonQuery();
-                        sqlConnection.Close();
-            if (test.Equals(1))
+            if (rowsAffected.Equals(1))
+            {
                 return true;
-            else
-                return false;
+            }
+
+            return false;
         }
+
         // Patikrina, ar egzistuoja tokiu kodu imone.
-        public bool tiekejasEgzistuoja()
+        public bool TiekejasEgzistuoja()
         {
 
             int count = 0;
 
             SqlConnection sqlConnection = new SqlConnection(this.connectionString);
             SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Tiekejai WHERE tiekejo_kodas=@tiekejoKodas", sqlConnection);
-            cmd.Parameters.AddWithValue("@tiekejoKodas", this.tiekejoKodas);
+            cmd.Parameters.AddWithValue("@tiekejoKodas", this.TiekejoKodas);
 
             sqlConnection.Open();
             count = (int)cmd.ExecuteScalar();
@@ -72,7 +72,7 @@ namespace PrekybosSistema
         /**
             * Perduodame Listbox`ui sarasa tiekeju
         */
-        public void tiekejuSarasas(TiekejoIsregistravimas data)
+        public void TiekejuSarasas(TiekejoIsregistravimas data)
         {
             //List<string> tiekejulist = new List<string>();
 
@@ -90,48 +90,29 @@ namespace PrekybosSistema
             reader.Close();
             sqlConnection.Close();
         }
+
         /**
             * TIEKEJU ISREGISTRAVIMAS, suteikiame informacija apie tiekeja
         */
-        public void tiekejuSarasasIsregistravimui(TiekejoIsregistravimas data)
+        public void TiekejuSarasasIsregistravimui(TiekejoIsregistravimas data)
         {
-            //List<string> tiekejulist = new List<string>();
             data.label4.Text = data.listBox1.Text;
 
-
-                SqlConnection sqlConnection = new SqlConnection(this.connectionString);
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Tiekejai WHERE tiekejo_pavadinimas=@tiekejo_pavadinimas", sqlConnection);
-                cmd.Parameters.AddWithValue("@tiekejo_pavadinimas", Convert.ToString(data.listBox1.Text));
-
-                sqlConnection.Open();
-                SqlDataReader duomenys = cmd.ExecuteReader();
-                sqlConnection.Close();
-
-                while (duomenys.Read())
-                {
-                    data.label5.Text = duomenys["tiekejo_pavadinimas"].ToString();
-                }
-
-
-            //duomenys.close();
-
-
-
-
-
-            /*SqlConnection sqlConnection = new SqlConnection(this.connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM Tiekejai WHERE tiekejo_pavadinimas=@tiekejo_pavadinimas", sqlConnection);
-            cmd.Parameters.AddWithValue("@tiekejo_pavadinimas", data.listBox1.Text);
+            SqlConnection sqlConnection = new SqlConnection(this.connectionString);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Tiekejai WHERE tiekejo_pavadinimas LIKE @tiekejo_pavadinimas", sqlConnection);
+            cmd.Parameters.Add("@tiekejo_pavadinimas", System.Data.SqlDbType.Text).Value = data.listBox1.Text.ToString();
 
             sqlConnection.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
+            SqlDataReader duomenys = cmd.ExecuteReader();
+           
+            while (duomenys.Read())
             {
-                string labas4 = reader["tiekejo_pavadinimas"].ToString();
-                data.label4.Text = labas4;
+                data.label5.Text = duomenys["tiekejo_pavadinimas"].ToString();
+                data.label6.Text = duomenys["sutartis_pasirasyta"].ToString();
+                data.label7.Text = duomenys["sutartis_pasibaigia"].ToString();
             }
-            reader.Close();
-            sqlConnection.Close();*/
+
+            sqlConnection.Close();
         }
 
     }
