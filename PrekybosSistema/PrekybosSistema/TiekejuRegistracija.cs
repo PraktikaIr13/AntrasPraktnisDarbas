@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace PrekybosSistema
@@ -9,6 +10,7 @@ namespace PrekybosSistema
         string imonesKodas;
         string pasirasimoData;
         string sutartisPasibaigia;
+        List<string> produktai = new List<string>();
 
         public TiekejuRegistracija()
         {
@@ -55,6 +57,31 @@ namespace PrekybosSistema
 
                 this.Close();
             }
+        }
+
+        /*
+   Pridetas prekiu pridejimas i sarasa.
+   Daromas prekes patikrinimas ir jei tokios nera pridedamas i db
+*/
+        private void btnProduktai_Click(object sender, EventArgs e)
+        {
+            DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
+
+            DB.ProduktoPavadinimas = tbProduktai.Text.ToString();
+
+            if (DB.ProduktuRegistracija().Equals(true))
+            {
+                MessageBox.Show("Naujas produktas uzregistruotas!");
+                //produktai.Add(tbProduktai.Text.ToString());
+                tbProduktai.Text = "";
+                return;
+            }
+            if (DB.ProduktuRegistracija().Equals(false))
+            {
+                MessageBox.Show("Deja, toks produktas jau yra!");
+                tbProduktai.Text = "";
+            }
+
         }
     }
 }

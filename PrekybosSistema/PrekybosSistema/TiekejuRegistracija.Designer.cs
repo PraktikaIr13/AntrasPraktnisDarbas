@@ -39,6 +39,9 @@
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbProduktai = new System.Windows.Forms.TextBox();
+            this.btnProduktai = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -115,7 +118,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(56, 223);
+            this.button1.Location = new System.Drawing.Point(241, 222);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(159, 45);
             this.button1.TabIndex = 10;
@@ -133,11 +136,40 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Tiekėjų registracija";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(13, 204);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(86, 13);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "Pridėti produktus";
+            // 
+            // tbProduktai
+            // 
+            this.tbProduktai.Location = new System.Drawing.Point(13, 218);
+            this.tbProduktai.Name = "tbProduktai";
+            this.tbProduktai.Size = new System.Drawing.Size(162, 20);
+            this.tbProduktai.TabIndex = 12;
+            // 
+            // btnProduktai
+            // 
+            this.btnProduktai.Location = new System.Drawing.Point(12, 244);
+            this.btnProduktai.Name = "btnProduktai";
+            this.btnProduktai.Size = new System.Drawing.Size(75, 23);
+            this.btnProduktai.TabIndex = 13;
+            this.btnProduktai.Text = "Pridėti";
+            this.btnProduktai.UseVisualStyleBackColor = true;
+            this.btnProduktai.Click += new System.EventHandler(this.btnProduktai_Click);
+            // 
             // TiekejuRegistracija
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(259, 309);
+            this.ClientSize = new System.Drawing.Size(412, 309);
+            this.Controls.Add(this.btnProduktai);
+            this.Controls.Add(this.tbProduktai);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.label6);
@@ -168,5 +200,8 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbProduktai;
+        private System.Windows.Forms.Button btnProduktai;
     }
 }
