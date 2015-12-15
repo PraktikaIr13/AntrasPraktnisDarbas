@@ -12,24 +12,28 @@ namespace PrekybosSistema
 {
     public partial class TiekejuRegistracija2 : Form
     {
-        string imonesPavadimas;
-        string imonesKodas;
-        string pasirasimoData;
-        string sutartisPasibaigia;
 
-        public TiekejuRegistracija2(string imonesPavadimas, string imonesKodas, string pasirasimoData, string sutartisPasibaigia)
+       public string ImonesPavadimas { get; set; }
+       public string ImonesKodas { get; set; }
+       public string PasirasimoData { get; set; }
+       public string SutartisPasibaigia { get; set; }
+        List<string> produktai = new List<string>();
+
+        public TiekejuRegistracija2(string imonesPavadimas, string imonesKodas, string pasirasimoData, string sutartisPasibaigia, List<string> produktai)
         {
             InitializeComponent();
 
-            this.imonesPavadimas = imonesPavadimas;
-            this.imonesKodas = imonesKodas;
-            this.pasirasimoData = pasirasimoData;
-            this.sutartisPasibaigia = sutartisPasibaigia;
+            this.ImonesPavadimas = imonesPavadimas;
+            this.ImonesKodas = imonesKodas;
+            this.PasirasimoData = pasirasimoData;
+            this.SutartisPasibaigia = sutartisPasibaigia;
+            this.produktai = produktai;
 
-            label2.Text = this.imonesPavadimas;
-            label4.Text = this.imonesKodas;
-            label6.Text = this.pasirasimoData;
-            label8.Text = this.sutartisPasibaigia;
+            label2.Text = this.ImonesPavadimas;
+            label4.Text = this.ImonesKodas;
+            label6.Text = this.PasirasimoData;
+            label8.Text = this.SutartisPasibaigia;
+            listBox1.DataSource = produktai;
         
         }
 

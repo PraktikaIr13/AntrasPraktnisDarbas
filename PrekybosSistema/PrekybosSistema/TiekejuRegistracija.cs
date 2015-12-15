@@ -6,10 +6,10 @@ namespace PrekybosSistema
 {
     public partial class    TiekejuRegistracija : Form
     {
-        string imonesPavadimas;
-        string imonesKodas;
-        string pasirasimoData;
-        string sutartisPasibaigia;
+       public string ImonesPavadimas { get; set; }
+       public string ImonesKodas { get; set; }
+       public string PasirasimoData { get; set; }
+       public string SutartisPasibaigia { get; set; }
         List<string> produktai = new List<string>();
 
         public TiekejuRegistracija()
@@ -18,44 +18,44 @@ namespace PrekybosSistema
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            this.imonesPavadimas = textBox1.Text;
-            this.imonesKodas = textBox2.Text;
-            this.pasirasimoData = dateTimePicker1.Text;
-            this.sutartisPasibaigia = dateTimePicker2.Text;
+            this.ImonesPavadimas = textBox1.Text;
+            this.ImonesKodas = textBox2.Text;
+            this.PasirasimoData = dateTimePicker1.Text;
+            this.SutartisPasibaigia = dateTimePicker2.Text;
 
             DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
 
             // Suteikiame reiksmes kurios bus iterpiamos i duomenu baze 
-            DB.TiekejoKodas = Convert.ToInt32(this.imonesKodas);
-            DB.TiekejoPavadinimas = this.imonesPavadimas;
-            DB.SutartisPasirasyta = Convert.ToDateTime(this.pasirasimoData);
-            DB.SutartiesPabaiga = Convert.ToDateTime(this.sutartisPasibaigia);
+            DB.TiekejoKodas = Convert.ToInt32(this.ImonesKodas);
+            DB.TiekejoPavadinimas = this.ImonesPavadimas;
+            DB.SutartisPasirasyta = Convert.ToDateTime(this.PasirasimoData);
+            DB.SutartiesPabaiga = Convert.ToDateTime(this.SutartisPasibaigia);
 
             // Formos pildymas
-            if (this.imonesPavadimas == "")
+            if (this.ImonesPavadimas == "")
             {
                 MessageBox.Show("Palikote neužpildyta įmonės pavadinimo laukelį!");
             }
-            if (this.imonesKodas == "")
+            if (this.ImonesKodas == "")
             {
                 MessageBox.Show("Palikote neužpildyta imones kodo laukelį!");
             }
-            if (this.pasirasimoData == "")
+            if (this.PasirasimoData == "")
             {
                 MessageBox.Show("Palikote neužpildyta imones kodo laukelį!");
             }
             // Registracijos vygdimas
-            if (DB.TiekejuRegistracija().Equals(true))
+            if (DB.TiekejuRegistracija())
             {
                 MessageBox.Show("Naujas tiekėjas užregistruotas!");
 
                 // Visi duomenys užpildyti teisingai
-                var Tregistracija2 = new TiekejuRegistracija2(this.imonesPavadimas, this.imonesKodas, this.pasirasimoData, this.sutartisPasibaigia);
+                var Tregistracija2 = new TiekejuRegistracija2(this.ImonesPavadimas, this.ImonesKodas, this.PasirasimoData, this.SutartisPasibaigia, this.produktai);
                 this.Close();
                 Tregistracija2.ShowDialog();
                 return;
             }
-            if (DB.TiekejuRegistracija().Equals(false))
+            else
             {
                 MessageBox.Show("Deja, toks tiekejo imones kodas jau yra!");
             }  
@@ -71,16 +71,17 @@ namespace PrekybosSistema
 
             DB.ProduktoPavadinimas = tbProduktai.Text.ToString();
 
-            if (DB.ProduktuRegistracija().Equals(true))
+            if (DB.ProduktuRegistracija())
             {
                 MessageBox.Show("Naujas produktas uzregistruotas!");
-                //produktai.Add(tbProduktai.Text.ToString());
+                produktai.Add(tbProduktai.Text.ToString());
                 tbProduktai.Text = "";
                 return;
             }
-            if (DB.ProduktuRegistracija().Equals(false))
+            else
             {
                 MessageBox.Show("Deja, toks produktas jau yra!");
+                produktai.Add(tbProduktai.Text.ToString());
                 tbProduktai.Text = "";
             }
 
