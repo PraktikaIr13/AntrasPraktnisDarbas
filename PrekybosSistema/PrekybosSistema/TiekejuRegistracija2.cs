@@ -16,8 +16,9 @@ namespace PrekybosSistema
         string imonesKodas;
         string pasirasimoData;
         string sutartisPasibaigia;
+        List<string> produktai = new List<string>();
 
-        public TiekejuRegistracija2(string imonesPavadimas, string imonesKodas, string pasirasimoData, string sutartisPasibaigia)
+        public TiekejuRegistracija2(string imonesPavadimas, string imonesKodas, string pasirasimoData, string sutartisPasibaigia, List<string> produktai)
         {
             InitializeComponent();
 
@@ -25,11 +26,13 @@ namespace PrekybosSistema
             this.imonesKodas = imonesKodas;
             this.pasirasimoData = pasirasimoData;
             this.sutartisPasibaigia = sutartisPasibaigia;
+            this.produktai = produktai;
 
             label2.Text = this.imonesPavadimas;
             label4.Text = this.imonesKodas;
             label6.Text = this.pasirasimoData;
             label8.Text = this.sutartisPasibaigia;
+            listBox1.DataSource = produktai;
         
         }
 

@@ -45,17 +45,17 @@ namespace PrekybosSistema
                 MessageBox.Show("Palikote neužpildyta imones kodo laukelį!");
             }
             // Registracijos vygdimas
-            if (DB.TiekejuRegistracija().Equals(true))
+            if (DB.TiekejuRegistracija())
             {
                 MessageBox.Show("Naujas tiekėjas užregistruotas!");
 
                 // Visi duomenys užpildyti teisingai
-                var Tregistracija2 = new TiekejuRegistracija2(this.imonesPavadimas, this.imonesKodas, this.pasirasimoData, this.sutartisPasibaigia);
+                var Tregistracija2 = new TiekejuRegistracija2(this.imonesPavadimas, this.imonesKodas, this.pasirasimoData, this.sutartisPasibaigia, this.produktai);
                 this.Close();
                 Tregistracija2.ShowDialog();
                 return;
             }
-            if (DB.TiekejuRegistracija().Equals(false))
+            else
             {
                 MessageBox.Show("Deja, toks tiekejo imones kodas jau yra!");
             }  
@@ -71,16 +71,17 @@ namespace PrekybosSistema
 
             DB.ProduktoPavadinimas = tbProduktai.Text.ToString();
 
-            if (DB.ProduktuRegistracija().Equals(true))
+            if (DB.ProduktuRegistracija())
             {
                 MessageBox.Show("Naujas produktas uzregistruotas!");
-                //produktai.Add(tbProduktai.Text.ToString());
+                produktai.Add(tbProduktai.Text.ToString());
                 tbProduktai.Text = "";
                 return;
             }
-            if (DB.ProduktuRegistracija().Equals(false))
+            else
             {
                 MessageBox.Show("Deja, toks produktas jau yra!");
+                produktai.Add(tbProduktai.Text.ToString());
                 tbProduktai.Text = "";
             }
 
