@@ -28,5 +28,16 @@ namespace PrekybosSistema
             var Tisregistracija = new TiekejoIsregistravimas();
             Tisregistracija.ShowDialog();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void produktųRedagavimasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var produktuPerziura = new ProduktuPerziura();
+            produktuPerziura.ShowDialog();
+        }
     }
 }

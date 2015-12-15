@@ -40,6 +40,7 @@
             this.sutartysBaigiančiosGaliotiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sutartysNutrauktosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.produktųUžsakymasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.produktųRedagavimasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,6 +100,7 @@
             this.tiekėjoRegistracijaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tiekėjųRegistracijaToolStripMenuItem,
             this.tiekėjųIšregistravimasToolStripMenuItem,
+            this.produktųRedagavimasToolStripMenuItem,
             this.sutartysBaigiančiosGaliotiToolStripMenuItem,
             this.sutartysNutrauktosToolStripMenuItem});
             this.tiekėjoRegistracijaToolStripMenuItem.Name = "tiekėjoRegistracijaToolStripMenuItem";
@@ -137,6 +139,13 @@
             this.produktųUžsakymasToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.produktųUžsakymasToolStripMenuItem.Text = "Produktų užsakymas";
             // 
+            // produktųRedagavimasToolStripMenuItem
+            // 
+            this.produktųRedagavimasToolStripMenuItem.Name = "produktųRedagavimasToolStripMenuItem";
+            this.produktųRedagavimasToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.produktųRedagavimasToolStripMenuItem.Text = "Produktų redagavimas";
+            this.produktųRedagavimasToolStripMenuItem.Click += new System.EventHandler(this.produktųRedagavimasToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -147,6 +156,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -167,6 +177,7 @@
         private System.Windows.Forms.ToolStripMenuItem produktųUžsakymasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem produktųUžsakymasToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem dsfToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem produktųRedagavimasToolStripMenuItem;
     }
 }
 
