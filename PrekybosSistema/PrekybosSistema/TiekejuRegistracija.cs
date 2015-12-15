@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace PrekybosSistema
 {
-    public partial class TiekejuRegistracija : Form
+    public partial class    TiekejuRegistracija : Form
     {
         string imonesPavadimas;
         string imonesKodas;
