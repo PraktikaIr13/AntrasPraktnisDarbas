@@ -20,33 +20,91 @@ namespace PrekybosSistema
         public string TiekejoPavadinimas { get; set; }
         public DateTime SutartisPasirasyta { get; set; }
         public DateTime SutartiesPabaiga { get; set; }
+        public string ProduktoPavadinimas { get; set; }
 
         /**
             * Tiekejo registracija
+            ****
+            Tikrina tik pagal mones koda, reikia prideti ir pagal pavadinima arba palikti tiesiog pagal 
+            imones koda kadangi jis negali kartotis
+            ****
         */
         public bool TiekejuRegistracija()
         {
             SqlConnection sqlConnection = new SqlConnection(this.connectionString);
+
+            if (TiekejasEgzistuoja())
+            {
+                return false;
+            }
+            else
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = "INSERT Tiekejai VALUES (@tiekejoKodas, @tiekejoPavavadinimas, @sutartiesPradzia, @sutartiesPabaiga)";
+                cmd.Parameters.AddWithValue("@tiekejoKodas", this.TiekejoKodas);
+                cmd.Parameters.AddWithValue("@tiekejoPavavadinimas", this.TiekejoPavadinimas);
+                cmd.Parameters.AddWithValue("@sutartiesPradzia", this.SutartisPasirasyta);
+                cmd.Parameters.AddWithValue("@sutartiesPabaiga", this.SutartiesPabaiga);
+
+                cmd.Connection = sqlConnection;
+                int rowsAffected = cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+
+                if (rowsAffected.Equals(1))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public bool ProduktuRegistracija()
+        {
+            SqlConnection sqlConnection = new SqlConnection(this.connectionString);
+
+            if (ProduktasEgzistuoja())
+            {
+                return false;
+            }
+            else
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = "INSERT TiekejuProduktai VALUES (@ProduktoPavadinimas)";
+                cmd.Parameters.AddWithValue("@ProduktoPavadinimas", this.ProduktoPavadinimas);
+
+                cmd.Connection = sqlConnection;
+                int rowsAffected = cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+
+                if (rowsAffected.Equals(1))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public bool ProduktasEgzistuoja()
+        {
+            SqlConnection sqlConnection = new SqlConnection(this.connectionString);
             sqlConnection.Open();
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandType = System.Data.CommandType.Text;
-            cmd.CommandText = "INSERT Tiekejai VALUES (@tiekejoKodas, @tiekejoPavavadinimas, @sutartiesPradzia, @sutartiesPabaiga)";
-            cmd.Parameters.AddWithValue("@tiekejoKodas", this.TiekejoKodas);
-            cmd.Parameters.AddWithValue("@tiekejoPavavadinimas", this.TiekejoPavadinimas);
-            cmd.Parameters.AddWithValue("@sutartiesPradzia", this.SutartisPasirasyta);
-            cmd.Parameters.AddWithValue("@sutartiesPabaiga", this.SutartiesPabaiga);
-
-            cmd.Connection = sqlConnection;
-            int rowsAffected = cmd.ExecuteNonQuery();
+            SqlCommand cmd = new SqlCommand("SELECT ID FROM TiekejuProduktai WHERE PAVADINIMAS = @Pavadinimas", sqlConnection);
+            cmd.Parameters.AddWithValue("@Pavadinimas", this.ProduktoPavadinimas);
+            int id = Convert.ToInt32(cmd.ExecuteScalar());
             sqlConnection.Close();
-
-            if (rowsAffected.Equals(1))
+            if (id > 0)
             {
                 return true;
             }
-
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
         // Patikrina, ar egzistuoja tokiu kodu imone.
