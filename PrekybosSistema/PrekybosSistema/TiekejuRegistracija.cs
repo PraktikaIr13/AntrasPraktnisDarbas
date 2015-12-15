@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace PrekybosSistema
 {
-    public partial class    TiekejuRegistracija : Form
+    public partial class  TiekejuRegistracija : Form
     {
         string imonesPavadimas;
         string imonesKodas;
         string pasirasimoData;
         string sutartisPasibaigia;
+        List<string> produktai = new List<string>();
 
         public TiekejuRegistracija()
         {
@@ -29,32 +31,59 @@ namespace PrekybosSistema
             DB.SutartisPasirasyta = Convert.ToDateTime(this.pasirasimoData);
             DB.SutartiesPabaiga = Convert.ToDateTime(this.sutartisPasibaigia);
 
-
+            // Formos pildymas
             if (this.imonesPavadimas == "")
             {
                 MessageBox.Show("Palikote neužpildyta įmonės pavadinimo laukelį!");
-            }else if (this.imonesKodas == "")
+            }
+            if (this.imonesKodas == "")
             {
                 MessageBox.Show("Palikote neužpildyta imones kodo laukelį!");
             }
-            else if (this.pasirasimoData == "")
+            if (this.pasirasimoData == "")
             {
                 MessageBox.Show("Palikote neužpildyta imones kodo laukelį!");
             }
-            else
+            // Registracijos vygdimas
+            if (DB.TiekejuRegistracija().Equals(true))
             {
-                if(DB.TiekejuRegistracija().Equals(true))
-                    MessageBox.Show("Naujas tiekėjas užregistruotas!");
-                else
-                    MessageBox.Show("Deja, kilo techninių problemų!");
+                MessageBox.Show("Naujas tiekėjas užregistruotas!");
 
-                
                 // Visi duomenys užpildyti teisingai
                 var Tregistracija2 = new TiekejuRegistracija2(this.imonesPavadimas, this.imonesKodas, this.pasirasimoData, this.sutartisPasibaigia);
-                Tregistracija2.ShowDialog();
-
                 this.Close();
+                Tregistracija2.ShowDialog();
+                return;
             }
+            if (DB.TiekejuRegistracija().Equals(false))
+            {
+                MessageBox.Show("Deja, toks tiekejo imones kodas jau yra!");
+            }              
+            }
+
+        /*
+            Pridetas prekiu pridejimas i sarasa.
+            Daromas prekes patikrinimas ir jei tokios nera pridedamas i db
+        */
+        private void btnPrekePrideti_Click(object sender, EventArgs e)
+        {
+            DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
+
+            DB.ProduktoPavadinimas = tbPrekes.Text.ToString();
+
+            if (DB.ProduktuRegistracija().Equals(true))
+            {
+                MessageBox.Show("Naujas produktas uzregistruotas!");
+                produktai.Add(tbPrekes.Text.ToString());
+                tbPrekes.Text = "";
+                return;
+            }
+            if (DB.ProduktuRegistracija().Equals(false))
+            {
+                MessageBox.Show("Deja, toks produktas jau yra!");
+                tbPrekes.Text = "";
+            }
+
         }
     }
 }
