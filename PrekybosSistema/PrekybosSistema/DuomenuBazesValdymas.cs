@@ -14,7 +14,7 @@ namespace PrekybosSistema
         }
 
         /**
-            * Duomenu gavimas is isores. SKIRTA REGISTRACIJAI
+            * Duomenu gavimas is isores. SKIRTA REGISTRACIJAI 
         */
         public int TiekejoKodas { get; set; }
         public string TiekejoPavadinimas { get; set; }

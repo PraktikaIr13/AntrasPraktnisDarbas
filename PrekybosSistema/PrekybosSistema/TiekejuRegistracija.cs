@@ -25,7 +25,7 @@ namespace PrekybosSistema
 
             DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
 
-            // Suteikiame reiksmes kurios bus iterpiamos i duomenu baze
+            // Suteikiame reiksmes kurios bus iterpiamos i duomenu baze 
             DB.TiekejoKodas = Convert.ToInt32(this.imonesKodas);
             DB.TiekejoPavadinimas = this.imonesPavadimas;
             DB.SutartisPasirasyta = Convert.ToDateTime(this.pasirasimoData);
