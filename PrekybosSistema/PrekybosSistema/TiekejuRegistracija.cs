@@ -10,7 +10,8 @@ namespace PrekybosSistema
        public string ImonesKodas { get; set; }
        public string PasirasimoData { get; set; }
        public string SutartisPasibaigia { get; set; }
-        List<string> produktai = new List<string>();
+       List<string> produktai = new List<string>();
+       DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
 
         public TiekejuRegistracija()
         {
@@ -23,47 +24,71 @@ namespace PrekybosSistema
             this.PasirasimoData = dateTimePicker1.Text;
             this.SutartisPasibaigia = dateTimePicker2.Text;
 
-            DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
-
-            // Suteikiame reiksmes kurios bus iterpiamos i duomenu baze 
-            DB.TiekejoKodas = Convert.ToInt32(this.ImonesKodas);
-            DB.TiekejoPavadinimas = this.ImonesPavadimas;
-            DB.SutartisPasirasyta = Convert.ToDateTime(this.PasirasimoData);
-            DB.SutartiesPabaiga = Convert.ToDateTime(this.SutartisPasibaigia);
-
             // Formos pildymas
+            if (FormosTikrinimas())
+            {
+                // Suteikiame reiksmes kurios bus iterpiamos i duomenu baze 
+                DB.TiekejoKodas = Convert.ToInt32(this.ImonesKodas);
+                DB.TiekejoPavadinimas = this.ImonesPavadimas;
+                DB.SutartisPasirasyta = Convert.ToDateTime(this.PasirasimoData);
+                DB.SutartiesPabaiga = Convert.ToDateTime(this.SutartisPasibaigia);
+
+                RegistracijosVykdymas();
+            }                
+        }
+
+        private void RegistracijosVykdymas()
+        {
+            // Registracijos vykdymas
+            if (!DB.TiekejasEgzistuoja())
+            {
+                DB.TiekejuRegistracija();
+
+                foreach (string produktas in produktai)
+                {
+                    DB.ProduktoPavadinimas = produktas;
+
+                    if (!DB.ProduktasEgzistuoja())
+                    {
+                        DB.ProduktoRegistracija();
+                    }
+                }
+                if (DB.TiekjuProduktuRegistracija())
+                {
+                    var Tregistracija2 = new TiekejuRegistracija2(this.ImonesPavadimas, this.ImonesKodas, this.PasirasimoData, this.SutartisPasibaigia, this.produktai);
+                    MessageBox.Show("Registracija sekminga!");
+                    this.Close();
+                    Tregistracija2.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Deja, ivyko klaida!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Deja, tiekejas egzistuoja!");
+            }
+        }
+
+        private Boolean FormosTikrinimas()
+        {
             if (this.ImonesPavadimas == "")
             {
                 MessageBox.Show("Palikote neužpildyta įmonės pavadinimo laukelį!");
+                return false;
             }
             if (this.ImonesKodas == "")
             {
                 MessageBox.Show("Palikote neužpildyta imones kodo laukelį!");
+                return false;
             }
             if (this.PasirasimoData == "")
             {
                 MessageBox.Show("Palikote neužpildyta imones kodo laukelį!");
+                return false;
             }
-            // Registracijos vygdimas
-            if (DB.TiekejuRegistracija())
-            {
-                MessageBox.Show("Naujas tiekėjas užregistruotas!");
-
-                if (DB.TiekjuProduktuRegistracija())
-                {
-                    MessageBox.Show("tarkim taip!");
-                }
-
-                // Visi duomenys užpildyti teisingai
-                var Tregistracija2 = new TiekejuRegistracija2(this.ImonesPavadimas, this.ImonesKodas, this.PasirasimoData, this.SutartisPasibaigia, this.produktai);
-                this.Close();
-                Tregistracija2.ShowDialog();
-                return;
-            }
-            else
-            {
-                MessageBox.Show("Deja, toks tiekejo imones kodas jau yra!");
-            }
+            return true;
         }
 
             /*
@@ -72,24 +97,7 @@ namespace PrekybosSistema
             */
         private void btnProduktai_Click(object sender, EventArgs e)
         {
-            DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
-
-            DB.ProduktoPavadinimas = tbProduktai.Text.ToString();
-
-            if (DB.ProduktuRegistracija())
-            {
-                MessageBox.Show("Naujas produktas uzregistruotas!");
-                produktai.Add(tbProduktai.Text.ToString());
-                tbProduktai.Text = "";
-                return;
-            }
-            else
-            {
-                MessageBox.Show("Deja, toks produktas jau yra!");
-                produktai.Add(tbProduktai.Text.ToString());
-                tbProduktai.Text = "";
-            }
-
+            produktai.Add(tbProduktai.Text.ToString());
         }
     }
 }
