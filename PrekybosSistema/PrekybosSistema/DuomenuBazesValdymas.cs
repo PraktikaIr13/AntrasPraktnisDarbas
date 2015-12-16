@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace PrekybosSistema
@@ -22,6 +23,8 @@ namespace PrekybosSistema
         public DateTime SutartiesPabaiga { get; set; }
         public string ProduktoPavadinimas { get; set; }
         public int ProduktoId { get; set; }
+        public List<int> produktuId = new List<int>();
+        //public List<string> produktai = new List<string>();
 
         /**
             * Tiekejo registracija
@@ -34,11 +37,6 @@ namespace PrekybosSistema
         {
             SqlConnection sqlConnection = new SqlConnection(this.ConnectionString);
             sqlConnection.Open();
-
-            if (TiekejasEgzistuoja())
-            {
-                return false;
-            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.Text;
@@ -56,22 +54,17 @@ namespace PrekybosSistema
             {
                 return true;
             }
-
             return false;
         }
 
         /**
          * I tarpine lentele idedami kokie produktai priklauso tiekejui 
          */
-        public bool ProduktuRegistracija()
+
+        public bool ProduktoRegistracija()
         {
             SqlConnection sqlConnection = new SqlConnection(this.ConnectionString);
             sqlConnection.Open();
-
-            if (ProduktasEgzistuoja())
-            {
-                return false;
-            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.Text;
@@ -84,9 +77,9 @@ namespace PrekybosSistema
 
             if (this.ProduktoId > 0)
             {
+                produktuId.Add(this.ProduktoId);
                 return true;
             }
-
             return false;
         }
 
@@ -94,15 +87,19 @@ namespace PrekybosSistema
         {
             SqlConnection sqlConnection = new SqlConnection(this.ConnectionString);
             sqlConnection.Open();
+            int rowsAffected = 0;
+            foreach (int produktas in produktuId)
+            {
+                //this.ProduktoId = produktas;
+                SqlCommand cmd = new SqlCommand("INSERT TiekejaiIrProduktai VALUES (@tiekejoId, @produktoId)", sqlConnection);
+                cmd.Parameters.AddWithValue("@tiekejoId", this.TiekejoKodas);
+                cmd.Parameters.AddWithValue("@produktoId", produktas);
+                rowsAffected = cmd.ExecuteNonQuery();
+            }
 
-            SqlCommand cmd = new SqlCommand("INSERT TiekejaiIrProduktai VALUES (@tiekejoId, @produktoId)", sqlConnection);
-            cmd.Parameters.AddWithValue("@tiekejoId", this.TiekejoKodas);
-            cmd.Parameters.AddWithValue("@produktoId", this.ProduktoId);
-
-            int rowsAffected = cmd.ExecuteNonQuery();
             sqlConnection.Close();
 
-            if (rowsAffected.Equals(1))
+            if (rowsAffected > 0)
             {
                 return true;
             }
@@ -122,31 +119,28 @@ namespace PrekybosSistema
 
             if (id > 0)
             {
+                produktuId.Add(id);
                 return true;
             }
-
             return false;
         }
 
         // Patikrina, ar egzistuoja tokiu kodu imone.
         public bool TiekejasEgzistuoja()
         {
-
-            int count = 0;
-
             SqlConnection sqlConnection = new SqlConnection(this.ConnectionString);
             sqlConnection.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Tiekejai WHERE tiekejo_kodas=@tiekejoKodas", sqlConnection);
+            SqlCommand cmd = new SqlCommand("SELECT tiekejo_kodas FROM Tiekejai WHERE tiekejo_kodas=@tiekejoKodas", sqlConnection);
             cmd.Parameters.AddWithValue("@tiekejoKodas", this.TiekejoKodas);
-            count = (int)cmd.ExecuteScalar();
+            int id = Convert.ToInt32(cmd.ExecuteScalar());
             sqlConnection.Close();
 
-            if (count >= 1)
+            if (id > 0)
             {
+                this.TiekejoKodas = id;
                 return true;
             }
-
             return false;
         }
 
