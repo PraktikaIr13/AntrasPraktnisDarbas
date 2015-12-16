@@ -49,6 +49,11 @@ namespace PrekybosSistema
             {
                 MessageBox.Show("Naujas tiekėjas užregistruotas!");
 
+                if (DB.TiekjuProduktuRegistracija())
+                {
+                    MessageBox.Show("tarkim taip!");
+                }
+
                 // Visi duomenys užpildyti teisingai
                 var Tregistracija2 = new TiekejuRegistracija2(this.ImonesPavadimas, this.ImonesKodas, this.PasirasimoData, this.SutartisPasibaigia, this.produktai);
                 this.Close();
@@ -58,7 +63,7 @@ namespace PrekybosSistema
             else
             {
                 MessageBox.Show("Deja, toks tiekejo imones kodas jau yra!");
-            }  
+            }
         }
 
             /*
