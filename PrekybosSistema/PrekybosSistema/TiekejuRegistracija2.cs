@@ -17,7 +17,7 @@ namespace PrekybosSistema
        public string ImonesKodas { get; set; }
        public string PasirasimoData { get; set; }
        public string SutartisPasibaigia { get; set; }
-        List<string> produktai = new List<string>();
+       private List<string> produktai = new List<string>();
 
         public TiekejuRegistracija2(string imonesPavadimas, string imonesKodas, string pasirasimoData, string sutartisPasibaigia, List<string> produktai)
         {

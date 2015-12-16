@@ -10,8 +10,8 @@ namespace PrekybosSistema
        public string ImonesKodas { get; set; }
        public string PasirasimoData { get; set; }
        public string SutartisPasibaigia { get; set; }
-       List<string> produktai = new List<string>();
-       DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
+       private List<string> produktai = new List<string>();
+       private DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
 
         public TiekejuRegistracija()
         {
@@ -19,22 +19,31 @@ namespace PrekybosSistema
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            this.ImonesPavadimas = textBox1.Text;
-            this.ImonesKodas = textBox2.Text;
-            this.PasirasimoData = dateTimePicker1.Text;
-            this.SutartisPasibaigia = dateTimePicker2.Text;
+            LaukuReiksmePaemimas();
 
             // Formos pildymas
             if (FormosTikrinimas())
             {
-                // Suteikiame reiksmes kurios bus iterpiamos i duomenu baze 
-                DB.TiekejoKodas = Convert.ToInt32(this.ImonesKodas);
-                DB.TiekejoPavadinimas = this.ImonesPavadimas;
-                DB.SutartisPasirasyta = Convert.ToDateTime(this.PasirasimoData);
-                DB.SutartiesPabaiga = Convert.ToDateTime(this.SutartisPasibaigia);
-
+                LaukuReiksmiuNustatymas();
                 RegistracijosVykdymas();
             }                
+        }
+
+        private void LaukuReiksmePaemimas()
+        {
+            this.ImonesPavadimas = textBox1.Text;
+            this.ImonesKodas = textBox2.Text;
+            this.PasirasimoData = dateTimePicker1.Text;
+            this.SutartisPasibaigia = dateTimePicker2.Text;
+        }
+
+        private void LaukuReiksmiuNustatymas()
+        {
+            // Suteikiame reiksmes kurios bus iterpiamos i duomenu baze 
+            DB.TiekejoKodas = Convert.ToInt32(this.ImonesKodas);
+            DB.TiekejoPavadinimas = this.ImonesPavadimas;
+            DB.SutartisPasirasyta = Convert.ToDateTime(this.PasirasimoData);
+            DB.SutartiesPabaiga = Convert.ToDateTime(this.SutartisPasibaigia);
         }
 
         private void RegistracijosVykdymas()

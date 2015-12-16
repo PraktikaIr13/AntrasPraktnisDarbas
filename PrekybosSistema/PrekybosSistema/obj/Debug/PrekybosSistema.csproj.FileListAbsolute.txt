@@ -84,3 +84,4 @@ C:\Users\Justas\Documents\GitHub\AntrasPraktnisDarbas\PrekybosSistema\PrekybosSi
 C:\Users\Justas\Documents\GitHub\AntrasPraktnisDarbas\PrekybosSistema\PrekybosSistema\obj\Debug\PrekybosSistema.TiekejuRegistracija2.resources
 C:\Users\Justas\Documents\GitHub\AntrasPraktnisDarbas\PrekybosSistema\PrekybosSistema\obj\Debug\PrekybosSistema.csproj.GenerateResource.Cache
 C:\Users\Justas\Documents\Github\AntrasPraktnisDarbas\PrekybosSistema\PrekybosSistema\obj\Debug\PrekybosSistema.ProduktuPerziura.resources
+C:\Users\Lauryno\Desktop\uzduotis\AntrasPraktnisDarbas\PrekybosSistema\PrekybosSistema\obj\Debug\PrekybosSistema.ProduktuPerziura.resources
