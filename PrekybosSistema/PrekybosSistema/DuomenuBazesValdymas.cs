@@ -192,13 +192,8 @@ namespace PrekybosSistema
          */
         public void IsregistruotiTiekeja(TiekejoIsregistravimas data)
         {
-            // Triname tiekeja
             SqlConnection sqlConnection = new SqlConnection(this.ConnectionString);
-            SqlCommand cmd = new SqlCommand("DELETE FROM Tiekejai WHERE tiekejo_pavadinimas LIKE @tiekejo_pavadinimas", sqlConnection);
-            cmd.Parameters.Add("@tiekejo_pavadinimas", System.Data.SqlDbType.Text).Value = data.label5.Text.ToString();
             sqlConnection.Open();
-            cmd.ExecuteNonQuery();
-
             // Pasiimsime tiekejo ID
             SqlCommand cmd2 = new SqlCommand("SELECT tiekejo_kodas FROM Tiekejai WHERE tiekejo_pavadinimas LIKE @tiekejo_pavadinimas", sqlConnection);
             cmd2.Parameters.Add("@tiekejo_pavadinimas", System.Data.SqlDbType.Text).Value = data.label5.Text.ToString();
@@ -209,6 +204,13 @@ namespace PrekybosSistema
                 DeleteFromTiekejaiIrProduktai(id);
             }
 
+            // Triname tiekeja
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM Tiekejai WHERE tiekejo_kodas LIKE @tiekejo_kodas", sqlConnection);
+            cmd.Parameters.Add("@tiekejo_kodas", System.Data.SqlDbType.Int).Value = id;
+
+            cmd.ExecuteNonQuery();
+
             sqlConnection.Close();
         }
 
@@ -216,7 +218,7 @@ namespace PrekybosSistema
         {
             SqlConnection sqlConnection = new SqlConnection(this.ConnectionString);
             SqlCommand cmd = new SqlCommand("DELETE FROM TiekejaiIrProduktai WHERE TIEKEJOID = @tiekejoId", sqlConnection);
-            cmd.Parameters.Add("@tiekejoId", System.Data.SqlDbType.Text).Value = tiekejoId;
+            cmd.Parameters.Add("@tiekejoId", System.Data.SqlDbType.Int).Value = tiekejoId;
 
             sqlConnection.Open();
             cmd.ExecuteNonQuery();

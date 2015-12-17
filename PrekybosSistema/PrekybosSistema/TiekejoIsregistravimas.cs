@@ -12,12 +12,12 @@ namespace PrekybosSistema
 {
     public partial class TiekejoIsregistravimas : Form
     {
-
+        DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
         public TiekejoIsregistravimas()
         {
             InitializeComponent();
             label2.Hide();
-            DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
+
             DB.TiekejuSarasas(this);
 
         }
@@ -29,10 +29,10 @@ namespace PrekybosSistema
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            DuomenuBazesValdymas DB = new DuomenuBazesValdymas();
             DB.IsregistruotiTiekeja(this);
 
             listBox1.Items.Clear();
+            DB.TiekejuSarasas(this);
             label4.Text = "";
             label5.Text = "";
             label6.Text = "";
